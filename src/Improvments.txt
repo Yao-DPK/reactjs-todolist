@@ -1,0 +1,1 @@
+Add a new component that appears when the edit button is pressed in order to edit the task individuallly
