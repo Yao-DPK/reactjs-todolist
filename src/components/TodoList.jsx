@@ -2,18 +2,19 @@ import React from 'react'
 import TodoCard from './TodoCard'
 
 export default function TodoList(props) {
-  const {todos} = props
-
+  const { filteredTodos } = props
 
   return (
     <ul className='main'>
-      {todos.map((todo, todoIndex) => {
-      return(
-        <TodoCard {...props} key={todoIndex} index={todoIndex}>
-          <p>{todo}</p>
-        </TodoCard>  
-      )
-    })}
+      {filteredTodos.map((todo, todoIndex) => {
+        // Find the real index in the full todos array
+        const realIndex = props.todos.indexOf(todo)
+        return (
+          <TodoCard {...props} key={realIndex} index={realIndex}>
+            <p className={todo.status === 'done' ? 'completed' : ''}>{todo.text}</p>
+          </TodoCard>
+        )
+      })}
     </ul>
   )
 }
