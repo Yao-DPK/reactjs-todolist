@@ -1,117 +1,399 @@
+/* === Theme Variables === */
+:root,
+[data-theme="light"] {
+  --bg-primary: #f0f4ff;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --color-todo: #3b82f6;
+  --color-in-progress: #f59e0b;
+  --color-done: #22c55e;
+  --color-accent: #1e40af;
+  --color-accent-hover: #1d4ed8;
+  --color-danger: #ef4444;
+  --filter-bg: #e2e8f0;
+  --filter-text: #475569;
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+  --toggle-bg: #f1f5f9;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border: #334155;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --color-todo: #60a5fa;
+  --color-in-progress: #fbbf24;
+  --color-done: #4ade80;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+  --color-danger: #f87171;
+  --filter-bg: #334155;
+  --filter-text: #94a3b8;
+  --input-bg: #1e293b;
+  --input-border: #334155;
+  --toggle-bg: #334155;
+}
+
+/* === Reset & Base === */
 * {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #202124;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1, h2, h3, input, button {
+  font-family: 'Press Start 2P', system-ui;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === App Container === */
+.appContainer {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* === Top Bar === */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 18px 0 4px;
+}
+
+.appTitle {
+  text-align: center;
+  font-size: 1.4em;
+  color: var(--color-accent);
+  transition: color 0.3s;
+}
+
+.themeToggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--toggle-bg);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+  box-shadow: var(--shadow);
+}
+
+.themeToggle:hover {
+  color: var(--color-accent);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* === Header / Input === */
+header {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+
+header input {
+  flex: 1;
+  border-radius: 14px;
+  outline: none;
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: 0.85em;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+header input::placeholder {
+  color: var(--text-muted);
+}
+
+header input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+header button {
+  border-radius: 14px;
+  background: var(--color-accent);
+  color: white;
+  transition: all 0.2s;
+  cursor: pointer;
+  padding: 14px 18px;
+  border: none;
+  font-size: 0.85em;
+  box-shadow: var(--shadow);
+}
+
+header button:hover {
+  background: var(--color-accent-hover);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* === Filter Bar === */
+.filterBar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  color: var(--filter-text);
+  cursor: pointer;
+  font-size: 0.65em;
+  font-family: 'Press Start 2P', system-ui;
+  transition: all 0.2s;
+}
+
+.filterBtn:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.filterBtn.filterActive {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--active-color, var(--color-accent));
+  box-shadow: 0 0 0 1px var(--active-color, var(--color-accent));
+}
+
+.filterCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 0.85em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  color: white;
+}
+
+.filterCountAll {
+  background: var(--color-accent) !important;
+}
+
+/* === Todo List === */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+
+/* === Todo Item === */
+.todoItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.todoItem:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.statusIndicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Status-specific card styles */
+.todoStatus-done {
+  opacity: 0.75;
+}
+
+.todoStatus-done:hover {
+  opacity: 0.9;
+}
+
+/* === Todo Content === */
+.todoContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.todoContent p {
+  font-size: 0.9em;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.todoContent p.completed {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.6em;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.02em;
+}
+
+/* === Check Button === */
+.checkBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.3em;
+  transition: all 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.checkBtn:hover {
+  transform: scale(1.15);
+}
+
+/* === Edit Container === */
+.editContainer {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 14px;
+}
+
+.editInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid var(--color-accent);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9em;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: box-shadow 0.2s;
+}
+
+.editInput:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* === Actions === */
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.actionsContainer button {
+  transition: all 0.2s;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1em;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.actionsContainer button:hover {
+  color: var(--text-primary);
+  background: var(--filter-bg);
+}
+
+.actionsContainer button:last-child:hover {
+  color: var(--color-danger);
+}
+
+/* === Empty Message === */
+.emptyMessage {
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  padding: 24px 0;
+}
+
+/* === Stats === */
+.todoStats {
+  text-align: center;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+}
+
+p {
+  font-size: 0.9em;
+}
+
+/* === Responsive === */
+@media (min-width: 640px) {
+  .appTitle {
+    font-size: 1.8em;
   }
-  
-  h1,
-  h2,
-  h3,
-  input,
-  button {
-    font-family: 'Press Start 2P', system-ui;
-  }
-  
-  #root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding: 14px;
-    background: #eff6ff;
-    gap: 14px;
-  }
-  
-  header {
-    display: flex;
-    align-items: stretch;
-  }
-  
-  header,
-  .main {
-    max-width: 800px;
-    width: 100%;
-    margin: 0 auto;
-    gap: 14px;
-  }
-  
-  header input {
-    flex: 1;
-    border-radius: 14px;
-    outline: none;
-    width: 100%;
-  }
-  
-  header button {
-    border-radius: 14px;
-    background: transparent;
-    transition-duration: 200ms;
-    cursor: pointer;
-  }
-  
-  header button:hover {
-    opacity: 0.7;
-  }
-  
+
   header button,
   header input {
-    padding: 14px 18px;
-    border: none;
-    outline: none;
-    background: white;
+    font-size: 1.1em;
   }
-  
+
   p {
-    font-size: 0.9em;
+    font-size: 1em;
   }
-  
-  .main {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  
-  .todoItem {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px;
-    border-radius: 14px;
-    background: white;
-  }
-  
-  .todoItem p {
-    flex: 1;
-  }
-  
-  .actionsContainer {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  
-  .actionsContainer button {
-    transition-duration: 200ms;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-  }
-  
-  .actionsContainer button:hover {
-    opacity: 0.7;
-  }
-  
-  
-  
-  @media (min-width: 640px) {
-  
-    header button,
-    header input {
-      font-size: 1.2em;
-    }
-  
-    p {
-      font-size: 1em;
-    }
-  }
+}
